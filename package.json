@@ -1,12 +1,14 @@
 {
   "name": "dsh-force-chinese",
-  "version": "0.2.1",
-  "description": "强制 DeepSeek Harness 用简体中文思考和回答，禁止英文及其他语言；可选「大肥鱼模式」人设注入（设置开关，纯 host 不改聊天 UI）",
+  "version": "0.3.0",
+  "description": "强制 DeepSeek Harness 用简体中文思考和回答，禁止英文及其他语言；可选「大肥鱼模式」人设注入（自绘小球设置面板）",
   "license": "MIT",
   "type": "module",
   "main": "lib/index.js",
   "exports": {
     ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json",
     "./cordis.patch.yml": "./cordis.patch.yml"
   },
   "files": [
@@ -15,6 +17,16 @@
     "README.md"
   ],
   "dsh": {
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-settings-plugins"
+      ],
+      "platform": "web"
+    },
     "bundle": {
       "patch": "./cordis.patch.yml"
     }

@@ -2,9 +2,9 @@
 
 **强制 DeepSeek Harness 说中文** + **可选「大肥鱼模式」人设注入**。
 
-- 纯 host 插件，**不修改聊天 UI**（不新增按钮、面板、设置项到聊天界面）。
-- 始终注入一条 system-prompt section：让 agent 用**简体中文**思考和回答，**禁止英文以及其他任何语言**。
-- 「大肥鱼模式」开启后，额外注入鲸鱼娘人设（【PERSONA_LOAD】标签组）。
+- 强制中文：始终注入 system-prompt section，让 agent 用**简体中文**思考和回答，**禁止英文以及其他任何语言**。
+- 大肥鱼模式：开启后额外注入鲸鱼娘人设（【PERSONA_LOAD】标签组）。
+- **自绘设置面板**：屏幕右侧中部小圆球 → 点击弹出设置面板，开关即时生效（无需 dsh-config-form）。
 
 ## 注入的文案
 
@@ -27,13 +27,7 @@ TIMEOUT SIGNAL
 ## 安装
 
 1. 把本包内容上传到你的 GitHub 仓库；
-2. （可选，推荐）先安装设置表单插件，开关会出现在 **设置 → 插件 → 插件配置**：
-
-```bash
-dsh plugin --profile desktop add dsh-config-form
-```
-
-3. 安装本插件：
+2. 安装：
 
 ```bash
 dsh plugin --profile desktop add github:你的用户名/dsh-force-chinese
@@ -41,13 +35,14 @@ dsh plugin --profile desktop add github:你的用户名/dsh-force-chinese
 dsh plugin --profile desktop add link:/path/to/dsh-force-chinese
 ```
 
-4. 重启 `dsh`（桌面版 DeepSeek Harness 重启应用；必要时硬刷新页面）。
+3. 重启 `dsh`（桌面版 DeepSeek Harness 完全退出重开；必要时硬刷新页面）。
 
 ## 使用
 
 - **强制中文**：安装即生效，无需任何配置。
-- **大肥鱼模式**：打开 **设置 → 插件 → 插件配置 → 强制中文 → 大肥鱼模式** 开关，即时生效（live）。
-  - 不装 dsh-config-form 时，可在 `cordis.patch.yml` 中给插件条目写 `config: { fatWhaleMode: true }`，重启生效。
+- **大肥鱼模式**：点击屏幕右侧中部的小圆球（鲸鱼图标）→ 弹出设置面板 → 打开「大肥鱼模式」开关，即时生效。
+  - 配置持久化在 DSH profile 目录下的 `dsh-force-chinese.json`。
+  - 兜底：可在 `cordis.patch.yml` 插件条目写 `config: { fatWhaleMode: true }`，重启生效（client 开关写入后以此为准）。
 
 ## 验证
 
@@ -60,8 +55,8 @@ dsh --profile desktop --dump-config
 ## 实现
 
 - 强制中文：`ctx.systemPrompt.section({ name: 'force-chinese', order: -90, text: STRICT_PROMPT })`
-- 大肥鱼人设：`ctx.systemPrompt.section({ name: 'whale-girl-persona', order: -80, text: () => enabled ? PERSONA : '' })` —— 函数 text 每次组装求值，开关变化即时生效
-- 设置开关：软依赖 `configForm`（`ctx.get('configForm')` 同步探测，未装 dsh-config-form 不影响主功能；cordis 4 的 `ctx.using` 必须先 inject 声明，故不使用）
+- 大肥鱼人设：`ctx.systemPrompt.section({ name: 'whale-girl-persona', order: -80, text: () => state.fatWhale ? PERSONA : '' })` —— 函数 text 每次组装求值，开关变化即时生效
+- 设置面板：`lib/client.js` 自绘小球（右侧小圆球，SVG 图标，无第三方 UI 包）；host `webServer` 提供 `GET/PUT /dsh-force-chinese/config` 读写配置
 
 ## 依赖（peerDependencies，由宿主提供）
 
