@@ -1,6 +1,6 @@
 {
   "name": "dsh-force-chinese",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "强制 DeepSeek Harness 用简体中文思考和回答，禁止英文及其他语言；可选「大肥鱼模式」人设注入（设置开关，纯 host 不改聊天 UI）",
   "license": "MIT",
   "type": "module",

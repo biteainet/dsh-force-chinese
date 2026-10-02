@@ -30,18 +30,18 @@ TIMEOUT SIGNAL
 2. （可选，推荐）先安装设置表单插件，开关会出现在 **设置 → 插件 → 插件配置**：
 
 ```bash
-dsh plugin --profile web add dsh-config-form
+dsh plugin --profile desktop add dsh-config-form
 ```
 
 3. 安装本插件：
 
 ```bash
-dsh plugin --profile web add github:你的用户名/dsh-force-chinese
+dsh plugin --profile desktop add github:你的用户名/dsh-force-chinese
 # 或本地调试
-dsh plugin --profile web add link:/path/to/dsh-force-chinese
+dsh plugin --profile desktop add link:/path/to/dsh-force-chinese
 ```
 
-4. 重启 `dsh web`（必要时硬刷新页面）。
+4. 重启 `dsh`（桌面版 DeepSeek Harness 重启应用；必要时硬刷新页面）。
 
 ## 使用
 
@@ -52,7 +52,7 @@ dsh plugin --profile web add link:/path/to/dsh-force-chinese
 ## 验证
 
 ```bash
-dsh --profile web --dump-config
+dsh --profile desktop --dump-config
 ```
 
 插件树中应能看到 `dsh-force-chinese` 节点；之后任意会话中模型都会用简体中文思考与回复。
@@ -61,7 +61,7 @@ dsh --profile web --dump-config
 
 - 强制中文：`ctx.systemPrompt.section({ name: 'force-chinese', order: -90, text: STRICT_PROMPT })`
 - 大肥鱼人设：`ctx.systemPrompt.section({ name: 'whale-girl-persona', order: -80, text: () => enabled ? PERSONA : '' })` —— 函数 text 每次组装求值，开关变化即时生效
-- 设置开关：软依赖 `configForm`（`ctx.using(['configForm'], …)`）；没装 dsh-config-form 不影响主功能
+- 设置开关：软依赖 `configForm`（`ctx.get('configForm')` 同步探测，未装 dsh-config-form 不影响主功能；cordis 4 的 `ctx.using` 必须先 inject 声明，故不使用）
 
 ## 依赖（peerDependencies，由宿主提供）
 
