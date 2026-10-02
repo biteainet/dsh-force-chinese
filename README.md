@@ -41,7 +41,7 @@ dsh plugin --profile desktop add link:/path/to/dsh-force-chinese
 
 - **强制中文**：安装即生效，无需任何配置。
 - **大肥鱼模式**：点击屏幕右侧中部的小圆球（鲸鱼图标）→ 弹出设置面板 → 打开「大肥鱼模式」开关，即时生效。
-  - 配置持久化在 DSH profile 目录下的 `dsh-force-chinese.json`。
+  - 配置持久化在 `$DSH_HOME`（默认 `~/.dsh`）下的 `dsh-force-chinese.json`，即 `%USERPROFILE%\.dsh\dsh-force-chinese.json`。
   - 兜底：可在 `cordis.patch.yml` 插件条目写 `config: { fatWhaleMode: true }`，重启生效（client 开关写入后以此为准）。
 
 ## 验证
