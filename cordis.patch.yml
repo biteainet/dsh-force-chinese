@@ -1,0 +1,6 @@
+# dsh-force-chinese bundle patch: one insert over the profile root.
+# `system-prompt` already lives in the host (dsh-base); this adds only the
+# force-chinese section.
+- insert:
+    - id: dsh-force-chinese
+      name: 'dsh-force-chinese'
